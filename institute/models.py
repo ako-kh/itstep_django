@@ -20,7 +20,7 @@ class Curse(models.Model):
 class Student(models.Model):
     full_name = models.CharField(max_length=30)
     age = models.IntegerField()
-    curse = models.ForeignKey(Curse, on_delete=models.SET_NULL, null=True)
+    curse = models.ManyToManyField(Curse)
 
     def __str__(self):
         return self.full_name
