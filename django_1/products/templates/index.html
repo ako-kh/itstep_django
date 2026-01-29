@@ -5,6 +5,8 @@
     <title>Home</title>
 </head>
 <body>
+    <a href="{% url 'products:on_sale' %}">products on sale</a>
+
     <h1>Category</h1>
     {% for category in categories %}
     <p><a href="#">{{ category }}</a> items({{ category.product_count }})</p>
