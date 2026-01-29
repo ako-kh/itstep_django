@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>On sale</title>
+</head>
+<body>
+    <h1>On sale</h1>
+    {% for product in on_sale_products %}
+      <p>{{ product.title }} -- {{ product.price }} $ --> {{ product.sale_price }} $</p>
+    {% endfor %}
+</body>
+</html>
