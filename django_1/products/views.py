@@ -1,5 +1,5 @@
 from django.db.models import F, ExpressionWrapper, DecimalField
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from products.models import Category, Product
 
 
@@ -24,14 +24,19 @@ def on_sale_view(request):
     return render(request, 'on_sale.html', {'on_sale_products': on_sale_products})
 
 def category_view(request, category_title):
-    # category = Category.objects.get(title=category_title)
+    category = get_object_or_404(Category, title=category_title)
+
     products = Product.objects.filter(
         is_available=True,
-        category=Category.objects.get(title=category_title)
+        category=category
     ).order_by('price')
+
+    product_count = products.count()
 
     context = {
         'products': products,
+        'category': category,
+        'product_count': product_count,
     }
 
     return render(request, 'category.html', context)

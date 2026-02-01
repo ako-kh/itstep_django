@@ -2,5 +2,12 @@
 {% block title %} {{ title }} {% endblock %}
 
 {% block content %}
-<h1>{{ products }}</h1>
+<h1>{{ category.title }} ({{ product_count }})</h1>
+    {% for product in products %}
+        <p>{{ product.title }} -- {{ product.price }} $
+        {% if product.on_sale %}
+            <span style="color: red" >SALE {{ product.sale }}%</span>
+        {% endif %}
+        </p>
+    {% endfor %}
 {% endblock  %}
