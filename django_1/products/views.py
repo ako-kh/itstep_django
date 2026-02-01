@@ -1,16 +1,13 @@
-from django.db.models import Count, F, ExpressionWrapper, DecimalField
+from django.db.models import F, ExpressionWrapper, DecimalField
 from django.shortcuts import render
 from products.models import Category, Product
 
 
 def index(request):
     products = Product.objects.filter(is_available=True).order_by('price')
-    categories = Category.objects.filter(products__isnull=False).distinct()
-    categories = categories.annotate(product_count=Count('products'))
 
     context = {
         'products': products,
-        'categories': categories,
     }
     return render(request, 'index.html', context)
 
