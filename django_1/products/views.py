@@ -3,7 +3,7 @@ from django.shortcuts import render
 from products.models import Category, Product
 
 
-def index(request):
+def index_view(request):
     products = Product.objects.filter(is_available=True).order_by('price')
 
     context = {
@@ -11,7 +11,7 @@ def index(request):
     }
     return render(request, 'index.html', context)
 
-def on_sale(request):
+def on_sale_view(request):
     on_sale_products = Product.objects.filter(on_sale=True, is_available=True)
 
     on_sale_products = on_sale_products.annotate(
@@ -23,10 +23,15 @@ def on_sale(request):
 
     return render(request, 'on_sale.html', {'on_sale_products': on_sale_products})
 
-def category(request, category_title):
+def category_view(request, category_title):
+    # category = Category.objects.get(title=category_title)
     products = Product.objects.filter(
         is_available=True,
         category=Category.objects.get(title=category_title)
     ).order_by('price')
 
-    return render(request, 'category.html', {'products': products})
+    context = {
+        'products': products,
+    }
+
+    return render(request, 'category.html', context)

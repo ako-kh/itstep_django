@@ -1,10 +1,10 @@
 from django.urls import path
-from .views import index, on_sale, category
+from .views import index_view, on_sale_view, category_view
 
 app_name = 'products'
 
 urlpatterns = [
-    path('', index, name='index'),
-    path('on_sale/', on_sale, name='on_sale'),
-    path('category/<str:category_title>/', category, name='category'),
+    path('', index_view, name='index'),
+    path('on_sale/', on_sale_view, name='on_sale'),
+    path('category/<str:category_title>/', category_view, name='category'),
 ]
