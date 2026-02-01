@@ -40,3 +40,8 @@ def category_view(request, category_title):
     }
 
     return render(request, 'category.html', context)
+
+def details_view(request, product_pk):
+    product = get_object_or_404(Product, pk=product_pk)
+
+    return render(request, 'details.html', {'product': product})

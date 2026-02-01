@@ -4,10 +4,10 @@
 {% block content %}
 <h1>Products</h1>
     {% for product in products %}
-        <p>{{ product.title }} -- {{ product.price }} $
+        <p><a href="{% url 'products:details' product.pk %}" >{{ product.title }} -- {{ product.price }} $
         {% if product.on_sale %}
             <span style="color: red" >SALE {{ product.sale }}%</span>
         {% endif %}
-        </p>
+        </a></p>
     {% endfor %}
 {% endblock  %}
