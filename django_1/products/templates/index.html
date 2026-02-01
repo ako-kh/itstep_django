@@ -1,24 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Home</title>
-</head>
-<body>
-    <a href="{% url 'products:on_sale' %}">products on sale</a>
+{% extends 'base.html' %}
 
-    <h1>Category</h1>
-    {% for category in categories %}
-    <p><a href="#">{{ category }}</a> items({{ category.product_count }})</p>
+{% block content %}
+
+<a href="{% url 'products:on_sale' %}">products on sale</a>
+
+<h1>Category</h1>
+{% for category in categories %}
+<p><a href="#">{{ category }}</a> items({{ category.product_count }})</p>
+{% endfor %}
+
+<h1>Products</h1>
+    {% for product in products %}
+        <p>{{ product.title }} -- {{ product.price }} $
+        {% if product.on_sale %}
+            <span style="color: red" >SALE {{ product.sale }}%</span>
+        {% endif %}
+        </p>
     {% endfor %}
-
-    <h1>Products</h1>
-        {% for product in products %}
-            <p>{{ product.title }} -- {{ product.price }} $
-            {% if product.on_sale %}
-                <span style="color: red" >SALE {{ product.sale }}%</span>
-            {% endif %}
-            </p>
-        {% endfor %}
-</body>
-</html>
+{% endblock  %}
