@@ -25,3 +25,11 @@ def on_sale(request):
     )
 
     return render(request, 'on_sale.html', {'on_sale_products': on_sale_products})
+
+def category(request, category_title):
+    products = Product.objects.filter(
+        is_available=True,
+        category=Category.objects.get(title=category_title)
+    ).order_by('price')
+
+    return render(request, 'category.html', {'products': products})
