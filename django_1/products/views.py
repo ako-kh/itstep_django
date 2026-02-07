@@ -4,8 +4,14 @@ from products.models import Category, Product
 
 
 def index_view(request):
-    products = Product.objects.filter(is_available=True).order_by('price')
-
+    products = Product.objects.filter(is_available=True).order_by('price').select_related('category')
+    products = products.annotate(
+        sale_price=ExpressionWrapper(
+            F("price") * (1 - F("sale") / 100.0),
+            output_field=DecimalField(max_digits=10, decimal_places=2),
+        )
+    )
+    # products = products.annotate() todo add new bool
     context = {
         'products': products,
     }
