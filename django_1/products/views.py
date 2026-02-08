@@ -53,8 +53,14 @@ def category_view(request, category_title):
 
 def details_view(request, product_pk):
     product = get_object_or_404(Product, pk=product_pk)
+    sale_price = float(product.price) * (1 - product.sale / 100)
 
-    return render(request, 'details.html', {'product': product})
+    context = {
+        'product': product,
+        'sale_price': sale_price,
+    }
+
+    return render(request, 'details.html', context)
 
 
 def add_product_view(request):
