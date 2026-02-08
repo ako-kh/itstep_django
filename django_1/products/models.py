@@ -31,6 +31,7 @@ class Product(models.Model):
     )
     sale = models.IntegerField(
         null=True,
+        blank=True,
         validators=[
             MinValueValidator(1),
             MaxValueValidator(100)

@@ -1,6 +1,7 @@
 from django.db.models import F, ExpressionWrapper, DecimalField
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from products.models import Category, Product
+from .forms import AddProductForm
 
 
 def index_view(request):
@@ -51,3 +52,16 @@ def details_view(request, product_pk):
     product = get_object_or_404(Product, pk=product_pk)
 
     return render(request, 'details.html', {'product': product})
+
+def add_product_view(request):
+    if request.method == 'POST':
+        form = AddProductForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect('products:index')
+
+    else:
+        form = AddProductForm()
+
+    return render(request, 'add_product.html', {'form': form})

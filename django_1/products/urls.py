@@ -4,6 +4,7 @@ from .views import (
     on_sale_view,
     category_view,
     details_view,
+    add_product_view,
 )
 
 app_name = 'products'
@@ -13,4 +14,5 @@ urlpatterns = [
     path('on_sale/', on_sale_view, name='on_sale'),
     path('category/<str:category_title>/', category_view, name='category'),
     path('details/<int:product_pk>/', details_view, name='details'),
+    path('add_product', add_product_view, name='add_product'),
 ]
