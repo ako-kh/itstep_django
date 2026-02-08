@@ -53,7 +53,9 @@ def category_view(request, category_title):
 
 def details_view(request, product_pk):
     product = get_object_or_404(Product, pk=product_pk)
-    sale_price = float(product.price) * (1 - product.sale / 100)
+    sale_price = None
+    if product.on_sale:
+        sale_price = float(product.price) * (1 - product.sale / 100)
 
     context = {
         'product': product,
