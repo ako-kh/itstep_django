@@ -6,6 +6,7 @@ from .views import (
     details_view,
     add_product_view,
     update_product_view,
+    delete_product_view,
 )
 
 app_name = 'products'
@@ -17,4 +18,5 @@ urlpatterns = [
     path('details/<int:product_pk>/', details_view, name='details'),
     path('add_product', add_product_view, name='add_product'),
     path('update_product/<int:product_pk>/', update_product_view, name='update_product'),
+    path('delete_product/<int:product_pk>/', delete_product_view, name='delete_product'),
 ]

@@ -93,3 +93,13 @@ def update_product_view(request, product_pk):
         form = UpdateProductForm(instance=product)
 
     return render(request, 'update_product.html', {'form': form})
+
+
+def delete_product_view(request, product_pk):
+    product = get_object_or_404(Product, pk=product_pk)
+
+    if request.method == 'POST':
+        product.delete()
+        return redirect('products:index')
+
+    return redirect('products:details', product_pk=product_pk)

@@ -7,7 +7,9 @@
 <!-- Product Detail Start -->
 <div class="container-fluid py-5">
     <a class="btn btn-primary" href="{% url 'products:update_product' product.pk %}">update product</a>
-    <a class="btn btn-primary" href="#">delete product</a>
+    <form action="{% url 'products:delete_product' product.pk %}" method="post">{% csrf_token %}
+        <button class="btn btn-danger mt-3">delete product</button>
+    </form>
     <div class="container py-5">
         <div class="row g-4">
             <!-- Product Image Gallery -->
