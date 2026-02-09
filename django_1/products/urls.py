@@ -4,7 +4,7 @@ from .views import (
     on_sale_view,
     category_view,
     ProductDetailView,
-    add_product_view,
+    AddProductView,
     update_product_view,
     delete_product_view,
 )
@@ -16,7 +16,7 @@ urlpatterns = [
     path('on_sale/', on_sale_view, name='on_sale'),
     path('category/<str:category_title>/', category_view, name='category'),
     path('details/<int:product_pk>/', ProductDetailView.as_view(), name='details'),
-    path('add_product', add_product_view, name='add_product'),
+    path('add_product', AddProductView.as_view(), name='add_product'),
     path('update_product/<int:product_pk>/', update_product_view, name='update_product'),
     path('delete_product/<int:product_pk>/', delete_product_view, name='delete_product'),
 ]

@@ -5,6 +5,7 @@ from .forms import AddProductForm, UpdateProductForm
 from django.views.generic import (
     ListView,
     DetailView,
+    CreateView,
 )
 
 
@@ -104,18 +105,25 @@ class ProductDetailView(DetailView):
         return context
 
 
-def add_product_view(request):
-    if request.method == 'POST':
-        form = AddProductForm(request.POST)
+# def add_product_view(request):
+#     if request.method == 'POST':
+#         form = AddProductForm(request.POST)
+#
+#         if form.is_valid():
+#             form.save()
+#             return redirect('products:index')
+#
+#     else:
+#         form = AddProductForm()
+#
+#     return render(request, 'add_product.html', {'form': form})
 
-        if form.is_valid():
-            form.save()
-            return redirect('products:index')
 
-    else:
-        form = AddProductForm()
-
-    return render(request, 'add_product.html', {'form': form})
+class AddProductView(CreateView):
+    model = Product
+    form_class = AddProductForm
+    template_name = 'add_product.html'
+    success_url = '/'
 
 
 def update_product_view(request, product_pk):
