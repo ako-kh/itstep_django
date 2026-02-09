@@ -7,6 +7,7 @@ from django.views.generic import (
     DetailView,
     CreateView,
     UpdateView,
+    DeleteView,
 )
 from django.urls import reverse_lazy
 
@@ -155,12 +156,18 @@ class ProductUpdateView(UpdateView):
         return reverse_lazy('products:details', kwargs={'product_pk': self.object.pk})
 
 
+# def delete_product_view(request, product_pk):
+#     product = get_object_or_404(Product, pk=product_pk)
+#
+#     if request.method == 'POST':
+#         product.delete()
+#         return redirect('products:index')
+#
+#     return redirect('products:details', product_pk=product_pk)
 
-def delete_product_view(request, product_pk):
-    product = get_object_or_404(Product, pk=product_pk)
 
-    if request.method == 'POST':
-        product.delete()
-        return redirect('products:index')
-
-    return redirect('products:details', product_pk=product_pk)
+class ProductDeleteView(DeleteView):
+    model = Product
+    pk_url_kwarg = 'product_pk'
+    queryset = Product.objects.filter(is_available=True)
+    success_url = '/'
