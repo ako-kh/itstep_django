@@ -2,21 +2,40 @@ from django.db.models import F, ExpressionWrapper, DecimalField
 from django.shortcuts import render, get_object_or_404, redirect
 from products.models import Category, Product
 from .forms import AddProductForm, UpdateProductForm
+from django.views.generic import (
+    ListView,
+)
 
 
-def index_view(request):
-    products = Product.objects.filter(is_available=True).order_by('price').select_related('category')
-    products = products.annotate(
-        sale_price=ExpressionWrapper(
-            F("price") * (1 - F("sale") / 100.0),
-            output_field=DecimalField(max_digits=10, decimal_places=2),
+# def index_view(request):
+#     products = Product.objects.filter(is_available=True).order_by('price').select_related('category')
+#     products = products.annotate(
+#         sale_price=ExpressionWrapper(
+#             F("price") * (1 - F("sale") / 100.0),
+#             output_field=DecimalField(max_digits=10, decimal_places=2),
+#         )
+#     )
+#     # products = products.annotate() todo add new bool
+#     context = {
+#         'products': products,
+#     }
+#     return render(request, 'index.html', context)
+
+
+class IndexView(ListView):
+    template_name = 'index.html'
+    context_object_name = 'products'
+
+    def get_queryset(self):
+        products = Product.objects.filter(is_available=True).order_by('price').select_related('category')
+        products = products.annotate(
+            sale_price=ExpressionWrapper(
+                F("price") * (1 - F("sale") / 100.0),
+                output_field=DecimalField(max_digits=10, decimal_places=2),
+            )
         )
-    )
-    # products = products.annotate() todo add new bool
-    context = {
-        'products': products,
-    }
-    return render(request, 'index.html', context)
+
+        return products
 
 
 def on_sale_view(request):
