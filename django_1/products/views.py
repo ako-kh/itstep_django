@@ -4,6 +4,7 @@ from products.models import Category, Product
 from .forms import AddProductForm, UpdateProductForm
 from django.views.generic import (
     ListView,
+    DetailView,
 )
 
 
@@ -70,18 +71,37 @@ def category_view(request, category_title):
     return render(request, 'category.html', context)
 
 
-def details_view(request, product_pk):
-    product = get_object_or_404(Product, pk=product_pk)
-    sale_price = None
-    if product.on_sale:
-        sale_price = float(product.price) * (1 - product.sale / 100)
+# def details_view(request, product_pk):
+#     product = get_object_or_404(Product, pk=product_pk)
+#     sale_price = None
+#     if product.on_sale:
+#         sale_price = float(product.price) * (1 - product.sale / 100)
+#
+#     context = {
+#         'product': product,
+#         'sale_price': sale_price,
+#     }
+#
+#     return render(request, 'details.html', context)
 
-    context = {
-        'product': product,
-        'sale_price': sale_price,
-    }
 
-    return render(request, 'details.html', context)
+class ProductDetailView(DetailView):
+    model = Product
+    pk_url_kwarg = 'product_pk'
+    context_object_name = 'product'
+    template_name = 'details.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+
+        product = context.get('product')
+        sale_price = None
+        if product.on_sale:
+            sale_price = float(product.price) * (1 - product.sale / 100)
+
+        context['sale_price'] = sale_price
+
+        return context
 
 
 def add_product_view(request):
