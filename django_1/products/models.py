@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.utils import timezone
 
 class Category(models.Model):
     title = models.CharField(max_length=30, unique=True)
@@ -43,6 +44,15 @@ class Product(models.Model):
         db_table = 'products'
         verbose_name = 'product'
         verbose_name_plural = 'products'
+
+    @property
+    def new(self):
+        days_old =  (timezone.now() - self.created_at).days
+
+        if 10 < days_old:
+            return True
+        else:
+            return False
 
     def __str__(self):
         return f"{self.category} -- {self.title}"
