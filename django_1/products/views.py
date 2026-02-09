@@ -6,7 +6,9 @@ from django.views.generic import (
     ListView,
     DetailView,
     CreateView,
+    UpdateView,
 )
+from django.urls import reverse_lazy
 
 
 # def index_view(request):
@@ -126,20 +128,32 @@ class AddProductView(CreateView):
     success_url = '/'
 
 
-def update_product_view(request, product_pk):
-    product = get_object_or_404(Product, pk=product_pk)
+# def update_product_view(request, product_pk):
+#     product = get_object_or_404(Product, pk=product_pk)
+#
+#     if request.method == 'POST':
+#         form = UpdateProductForm(request.POST, instance=product)
+#
+#         if form.is_valid():
+#             form.save()
+#             return redirect('products:index')
+#
+#     else:
+#         form = UpdateProductForm(instance=product)
+#
+#     return render(request, 'update_product.html', {'form': form})
 
-    if request.method == 'POST':
-        form = UpdateProductForm(request.POST, instance=product)
 
-        if form.is_valid():
-            form.save()
-            return redirect('products:index')
+class ProductUpdateView(UpdateView):
+    model = Product
+    pk_url_kwarg = 'product_pk'
+    queryset = Product.objects.filter(is_available=True)
+    form_class = UpdateProductForm
+    template_name = 'update_product.html'
 
-    else:
-        form = UpdateProductForm(instance=product)
+    def get_success_url(self):
+        return reverse_lazy('products:details', kwargs={'product_pk': self.object.pk})
 
-    return render(request, 'update_product.html', {'form': form})
 
 
 def delete_product_view(request, product_pk):
