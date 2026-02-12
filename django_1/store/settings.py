@@ -40,11 +40,13 @@ INSTALLED_APPS = [
 
     #my apps
     'products',
+    'user',
 
     #installed apps
     'debug_toolbar',
     'crispy_forms',
     'crispy_bootstrap5',
+    'phonenumber_field',
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
