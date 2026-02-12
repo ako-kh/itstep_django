@@ -122,7 +122,7 @@
                         <div class="collapse navbar-collapse" id="navbarCollapse">
                             <div class="navbar-nav ms-auto py-0">
                                 <a href="{% url 'products:index' %}" class="nav-item nav-link active">Home</a>
-                                <a href="shop.html" class="nav-item nav-link">Shop</a>
+                                <a href="{% url 'products:shop_product' %}" class="nav-item nav-link">Shop</a>
                                 <a href="cart.html" class="nav-item nav-link">Shop Cart</a>
                                 <a href="cheackout.html" class="nav-item nav-link">Cheackout</a>
                                 <a href="{% url 'products:add_product' %}" class="nav-item nav-link">Add product</a>
