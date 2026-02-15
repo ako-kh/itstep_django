@@ -39,6 +39,11 @@ class Product(models.Model):
         ]
     )
     on_sale = models.BooleanField(default=False)
+    main_image = models.ImageField(upload_to='product_images', default='default.jpg', blank=True)
+    image1 = models.ImageField(upload_to='product_images', null=True, blank=True)
+    image2 = models.ImageField(upload_to='product_images', null=True, blank=True)
+    image3 = models.ImageField(upload_to='product_images', null=True, blank=True)
+    image4 = models.ImageField(upload_to='product_images', null=True, blank=True)
 
     class Meta:
         db_table = 'products'
