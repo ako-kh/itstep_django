@@ -2,7 +2,7 @@
 {% load crispy_forms_filters %}
 
 {% block content %}
-<form class="w-50 m-5" method="POST">{% csrf_token %}
+<form class="w-50 m-5" method="POST" enctype="multipart/form-data">{% csrf_token %}
     {{ form|crispy }}
     <button class="btn btn-primary w-25 py-3">add product</button>
 </form>
