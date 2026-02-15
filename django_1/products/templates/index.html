@@ -199,7 +199,11 @@
                                     <div class="product-item rounded wow fadeInUp" data-wow-delay="0.1s">
                                         <div class="product-item-inner border rounded">
                                             <div class="product-item-inner-item">
-                                                <img src="{% static 'img/product-3.png' %}" class="img-fluid w-100 rounded-top" alt="">
+                                                {% if product.main_image %}
+                                                    <img src="{{ product.main_image.url }}" class="img-fluid w-100 rounded-top" alt="{{ product.title }}">
+                                                {% else %}
+                                                    <img src="{% static 'img/default.jpg' %}" class="img-fluid w-100 rounded-top" alt="{{ product.title }}">
+                                                {% endif %}
 
                                                 {% if product.on_sale %}
                                                     <div class="product-sale">sale</div>

@@ -16,7 +16,11 @@
             <div class="col-lg-6 wow fadeInLeft" data-wow-delay="0.1s">
                 <div class="product-detail-img border rounded">
                     <div class="main-image mb-3">
-                        <img src="{% static 'img/product-3.png' %}" class="img-fluid w-100 rounded" alt="{{ product.title }}" id="mainImage">
+                        {% if product.main_image %}
+                            <img src="{{ product.main_image.url }}" class="img-fluid w-100 rounded" alt="{{ product.title }}" id="mainImage">
+                        {% else %}
+                            <img src="{% static 'img/default.jpg' %}" class="img-fluid w-100 rounded" alt="{{ product.title }}" id="mainImage">
+                        {% endif %}
 
                         {% if product.on_sale %}
                             <div class="product-sale">sale</div>
@@ -27,18 +31,26 @@
 
                     <!-- Thumbnail Images -->
                     <div class="row g-2">
-                        <div class="col-3">
-                            <img src="{% static 'img/product-3.png' %}" class="img-fluid rounded border thumbnail-img active" alt="Thumbnail 1" onclick="changeImage(this)">
-                        </div>
-                        <div class="col-3">
-                            <img src="{% static 'img/product-3.png' %}" class="img-fluid rounded border thumbnail-img" alt="Thumbnail 2" onclick="changeImage(this)">
-                        </div>
-                        <div class="col-3">
-                            <img src="{% static 'img/product-3.png' %}" class="img-fluid rounded border thumbnail-img" alt="Thumbnail 3" onclick="changeImage(this)">
-                        </div>
-                        <div class="col-3">
-                            <img src="{% static 'img/product-3.png' %}" class="img-fluid rounded border thumbnail-img" alt="Thumbnail 4" onclick="changeImage(this)">
-                        </div>
+                        {% if product.image1 %}
+                            <div class="col-3">
+                                <img src="{{ product.image1.url }}" class="img-fluid rounded border thumbnail-img active" alt="Thumbnail 1" onclick="changeImage(this)">
+                            </div>
+                        {% endif %}
+                        {% if product.image2 %}
+                            <div class="col-3">
+                                <img src="{{ product.image2.url }}" class="img-fluid rounded border thumbnail-img active" alt="Thumbnail 2" onclick="changeImage(this)">
+                            </div>
+                        {% endif %}
+                        {% if product.image3 %}
+                            <div class="col-3">
+                                <img src="{{ product.image3.url }}" class="img-fluid rounded border thumbnail-img active" alt="Thumbnail 3" onclick="changeImage(this)">
+                            </div>
+                        {% endif %}
+                        {% if product.image4 %}
+                            <div class="col-3">
+                                <img src="{{ product.image4.url }}" class="img-fluid rounded border thumbnail-img active" alt="Thumbnail 4" onclick="changeImage(this)">
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
