@@ -1,6 +1,8 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils import timezone
+from user.models import ProfileModel
+
 
 class Category(models.Model):
     title = models.CharField(max_length=30, unique=True)
@@ -39,11 +41,14 @@ class Product(models.Model):
         ]
     )
     on_sale = models.BooleanField(default=False)
+
     main_image = models.ImageField(upload_to='product_images', default='default.jpg', blank=True)
     image1 = models.ImageField(upload_to='product_images', null=True, blank=True)
     image2 = models.ImageField(upload_to='product_images', null=True, blank=True)
     image3 = models.ImageField(upload_to='product_images', null=True, blank=True)
     image4 = models.ImageField(upload_to='product_images', null=True, blank=True)
+
+    wishlist = models.ManyToManyField(ProfileModel, related_name='wishlist')
 
     class Meta:
         db_table = 'products'
