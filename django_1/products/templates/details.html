@@ -135,7 +135,7 @@
                             <button class="btn btn-primary border-secondary rounded-pill py-3 px-5 flex-grow-1">
                                 <i class="fas fa-shopping-cart me-2"></i> Add To Cart
                             </button>
-                            <form method="post" action="{% url 'products:add_to_wishlist' product.pk %}">{% csrf_token %}
+                            <form method="post" action="{% url 'products:add_remove_wishlist' product.pk %}">{% csrf_token %}
                                 <input type="hidden" name="next" value="{{ request.get_full_path }}">
                                 <button class="btn btn-outline-primary rounded-pill py-3 px-4">
                                     <i class="fas fa-heart"></i>
