@@ -179,3 +179,34 @@ class ProductShopView(ListView):
 
     # def get_context_data(self, **kwargs):
 
+
+# class AddToWishlist(BaseUpdateView):
+#     model = Product
+#     pk_url_kwarg = 'product_pk'
+#     fields = ['wishlist']
+#     success_url = reverse_lazy('products:index')
+#
+#     def form_valid(self, form):
+#         product = form.save(commit=False)
+#         product.wishlist.add(self.request.user)
+#         product.save()
+#         return super().form_valid(form)
+
+def add_remove_wishlist(request, product_pk):
+    product = get_object_or_404(Product, pk=product_pk)
+    profile = request.user.profile
+
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+
+            if product not in profile.wishlist.all():
+                profile.wishlist.add(product)
+            else:
+                profile.wishlist.remove(product)
+
+            profile.save()
+
+        else:
+            return redirect('user:signe_in')
+
+    return redirect('products:index')
