@@ -209,4 +209,4 @@ def add_remove_wishlist(request, product_pk):
         else:
             return redirect('user:signe_in')
 
-    return redirect('products:index')
+    return redirect(request.POST.get('next', '/'))
