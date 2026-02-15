@@ -13,7 +13,7 @@ class SigneUpView(CreateView):
     model = User
     form_class = ProfileCreationForm
     template_name = 'signe_up.html'
-    success_url = '/'
+    success_url = reverse_lazy('user:signe_in')
 
     def form_valid(self, form):
         user = form.save()
