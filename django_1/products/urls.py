@@ -10,6 +10,7 @@ from .views import (
     ProductShopView,
     add_remove_wishlist,
     # AddToWishlist,
+    WishlistView,
 )
 
 app_name = 'products'
@@ -24,4 +25,5 @@ urlpatterns = [
     path('delete_product/<int:product_pk>/', ProductDeleteView.as_view(), name='delete_product'),
     path('shop/', ProductShopView.as_view(), name='shop_product'),
     path('add_remove_wishlist/<int:product_pk>/', add_remove_wishlist, name='add_remove_wishlist'),
+    path('wishlist/', WishlistView.as_view(), name='wishlist'),
 ]

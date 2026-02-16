@@ -10,6 +10,7 @@ from django.views.generic import (
     DeleteView,
 )
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 # def index_view(request):
@@ -210,3 +211,20 @@ def add_remove_wishlist(request, product_pk):
             return redirect('user:signe_in')
 
     return redirect(request.POST.get('next', '/'))
+
+
+class WishlistView(LoginRequiredMixin, ListView):
+    model = Product
+    template_name = 'wishlist.html'
+    context_object_name = 'wishlist_products'
+
+    def get_queryset(self):
+        wishlist_products = Product.objects.filter(wishlist=self.request.user.profile).select_related('category')
+        wishlist_products = wishlist_products.annotate(
+            sale_price=ExpressionWrapper(
+                F("price") * (1 - F("sale") / 100.0),
+                output_field=DecimalField(max_digits=10, decimal_places=2),
+            )
+        )
+        return wishlist_products
+
