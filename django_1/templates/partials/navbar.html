@@ -38,7 +38,7 @@
                                     <a href="{% url 'user:signe_in' %}" class="dropdown-item"> Login</a>
                                     <a href="{% url 'user:signe_up' %}" class="dropdown-item"> Create account</a>
                                 {% else %}
-                                    <a href="#" class="dropdown-item"> Wishlist</a>
+                                    <a href="{% url 'products:wishlist' %}" class="dropdown-item"> Wishlist</a>
                                     <a href="#" class="dropdown-item"> My Card</a>
                                     <a href="#" class="dropdown-item"> Notifications</a>
                                     <a href="#" class="dropdown-item"> Account Settings</a>
