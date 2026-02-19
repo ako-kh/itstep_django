@@ -177,8 +177,19 @@ class ProductDeleteView(DeleteView):
 class ProductShopView(ListView):
     model = Product
     template_name = 'shop.html'
+    context_object_name = 'products'
+    paginate_by = 2
 
-    # def get_context_data(self, **kwargs):
+    def get_queryset(self):
+        products = Product.objects.filter(is_available=True).order_by('price').select_related('category')
+        products = products.annotate(
+            sale_price=ExpressionWrapper(
+                F("price") * (1 - F("sale") / 100.0),
+                output_field=DecimalField(max_digits=10, decimal_places=2),
+            )
+        )
+
+        return products
 
 
 # class AddToWishlist(BaseUpdateView):
