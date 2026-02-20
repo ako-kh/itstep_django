@@ -42,6 +42,11 @@ class IndexView(ListView):
                     self.request.user.wishlist.filter(id=OuterRef('pk'))
                 )
             )
+            products = products.annotate(
+                is_in_cart=Exists(
+                    self.request.user.cart.filter(id=OuterRef('pk'))
+                )
+            )
 
         return products
 
