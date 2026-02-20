@@ -1,7 +1,7 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils import timezone
-from user.models import ProfileModel
+from django.contrib.auth.models import User
 
 
 class Category(models.Model):
@@ -48,7 +48,7 @@ class Product(models.Model):
     image3 = models.ImageField(upload_to='product_images', null=True, blank=True)
     image4 = models.ImageField(upload_to='product_images', null=True, blank=True)
 
-    wishlist = models.ManyToManyField(ProfileModel, related_name='wishlist')
+    wishlist = models.ManyToManyField(User, related_name='wishlist')
 
     class Meta:
         db_table = 'products'

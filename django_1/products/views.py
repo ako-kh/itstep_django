@@ -44,7 +44,7 @@ class IndexView(ListView):
         if self.request.user.is_authenticated:
             products = products.annotate(
                 is_wishlisted=Exists(
-                    self.request.user.profile.wishlist.filter(id=OuterRef('pk'))
+                    self.request.user.wishlist.filter(id=OuterRef('pk'))
                 )
             )
 
@@ -201,16 +201,16 @@ class ProductShopView(ListView):
 @login_required
 def add_remove_wishlist(request, product_pk):
     product = get_object_or_404(Product, pk=product_pk)
-    profile = request.user.profile
+    user = request.user
 
     if request.method == 'POST':
 
-        if product not in profile.wishlist.all():
-            profile.wishlist.add(product)
+        if product not in user.wishlist.all():
+            user.wishlist.add(product)
         else:
-            profile.wishlist.remove(product)
+            user.wishlist.remove(product)
 
-        profile.save()
+        user.save()
 
     return redirect(request.POST.get('next', '/'))
 
@@ -220,7 +220,7 @@ class WishlistView(LoginRequiredMixin, ListView):
     context_object_name = 'wishlist_products'
 
     def get_queryset(self):
-        wishlist_products = Product.objects.filter(wishlist=self.request.user.profile).select_related('category')
+        wishlist_products = Product.objects.filter(wishlist=self.request.user).select_related('category')
         wishlist_products = wishlist_products.annotate(
             sale_price=ExpressionWrapper(
                 F("price") * (1 - F("sale") / 100.0),
