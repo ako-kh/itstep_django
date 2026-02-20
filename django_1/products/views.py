@@ -192,19 +192,6 @@ class ProductShopView(ListView):
 
         return products
 
-
-# class AddToWishlist(BaseUpdateView):
-#     model = Product
-#     pk_url_kwarg = 'product_pk'
-#     fields = ['wishlist']
-#     success_url = reverse_lazy('products:index')
-#
-#     def form_valid(self, form):
-#         product = form.save(commit=False)
-#         product.wishlist.add(self.request.user)
-#         product.save()
-#         return super().form_valid(form)
-
 @login_required
 def add_remove_wishlist(request, product_pk):
     product = get_object_or_404(Product, pk=product_pk)
