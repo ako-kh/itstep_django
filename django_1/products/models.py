@@ -50,6 +50,8 @@ class Product(models.Model):
 
     wishlist = models.ManyToManyField(User, related_name='wishlist')
 
+    cart = models.ManyToManyField(User, related_name='cart')
+
     class Meta:
         db_table = 'products'
         verbose_name = 'product'
