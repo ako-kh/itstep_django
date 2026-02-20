@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.db.models import F, ExpressionWrapper, DecimalField
 from django.shortcuts import render, get_object_or_404, redirect
 from products.models import Category, Product
@@ -204,25 +205,21 @@ class ProductShopView(ListView):
 #         product.save()
 #         return super().form_valid(form)
 
+@login_required
 def add_remove_wishlist(request, product_pk):
     product = get_object_or_404(Product, pk=product_pk)
     profile = request.user.profile
 
     if request.method == 'POST':
-        if request.user.is_authenticated:
 
-            if product not in profile.wishlist.all():
-                profile.wishlist.add(product)
-            else:
-                profile.wishlist.remove(product)
-
-            profile.save()
-
+        if product not in profile.wishlist.all():
+            profile.wishlist.add(product)
         else:
-            return redirect('user:signe_in')
+            profile.wishlist.remove(product)
+
+        profile.save()
 
     return redirect(request.POST.get('next', '/'))
-
 
 class WishlistView(LoginRequiredMixin, ListView):
     model = Product
