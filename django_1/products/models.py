@@ -2,7 +2,7 @@ from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils import timezone
 from django.contrib.auth.models import User
-
+from decimal import Decimal
 
 class Category(models.Model):
     title = models.CharField(max_length=30, unique=True)
@@ -63,6 +63,15 @@ class Product(models.Model):
             return True
         else:
             return False
+
+    @property
+    def sale_price(self):
+        if self.on_sale:
+            sale_price = self.price * (1 - Decimal(self.sale) / 100)
+            sale_price = round(sale_price, 2)
+            return sale_price
+
+        return self.price
 
     def __str__(self):
         return f"{self.category} -- {self.title}"

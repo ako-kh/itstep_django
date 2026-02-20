@@ -35,12 +35,7 @@ class IndexView(ListView):
 
     def get_queryset(self):
         products = Product.objects.filter(is_available=True).order_by('price').select_related('category')
-        products = products.annotate(
-            sale_price=ExpressionWrapper(
-                F("price") * (1 - F("sale") / 100.0),
-                output_field=DecimalField(max_digits=10, decimal_places=2),
-            )
-        )
+
         if self.request.user.is_authenticated:
             products = products.annotate(
                 is_wishlisted=Exists(
@@ -53,13 +48,6 @@ class IndexView(ListView):
 
 def on_sale_view(request):
     on_sale_products = Product.objects.filter(on_sale=True, is_available=True)
-
-    on_sale_products = on_sale_products.annotate(
-        sale_price=ExpressionWrapper(
-            F("price") * (1 - F("sale") / 100.0),
-            output_field=DecimalField(max_digits=10, decimal_places=2),
-        )
-    )
 
     return render(request, 'on_sale.html', {'on_sale_products': on_sale_products})
 
@@ -102,18 +90,6 @@ class ProductDetailView(DetailView):
     pk_url_kwarg = 'product_pk'
     context_object_name = 'product'
     template_name = 'details.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data()
-
-        product = context.get('product')
-        sale_price = None
-        if product.on_sale:
-            sale_price = float(product.price) * (1 - product.sale / 100)
-
-        context['sale_price'] = sale_price
-
-        return context
 
 
 # def add_product_view(request):
@@ -189,12 +165,6 @@ class ProductShopView(ListView):
 
     def get_queryset(self):
         products = Product.objects.filter(is_available=True).order_by('price').select_related('category')
-        products = products.annotate(
-            sale_price=ExpressionWrapper(
-                F("price") * (1 - F("sale") / 100.0),
-                output_field=DecimalField(max_digits=10, decimal_places=2),
-            )
-        )
 
         return products
 
@@ -221,11 +191,6 @@ class WishlistView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         wishlist_products = Product.objects.filter(wishlist=self.request.user).select_related('category')
-        wishlist_products = wishlist_products.annotate(
-            sale_price=ExpressionWrapper(
-                F("price") * (1 - F("sale") / 100.0),
-                output_field=DecimalField(max_digits=10, decimal_places=2),
-            )
-        )
+
         return wishlist_products
 
