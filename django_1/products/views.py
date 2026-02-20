@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.db.models import F, ExpressionWrapper, DecimalField
+from django.db.models import F, ExpressionWrapper, DecimalField, Exists, OuterRef
 from django.shortcuts import render, get_object_or_404, redirect
 from products.models import Category, Product
 from .forms import AddProductForm, UpdateProductForm
@@ -41,6 +41,12 @@ class IndexView(ListView):
                 output_field=DecimalField(max_digits=10, decimal_places=2),
             )
         )
+        if self.request.user.is_authenticated:
+            products = products.annotate(
+                is_wishlisted=Exists(
+                    self.request.user.profile.wishlist.filter(id=OuterRef('pk'))
+                )
+            )
 
         return products
 
