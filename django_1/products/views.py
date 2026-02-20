@@ -194,3 +194,18 @@ class WishlistView(LoginRequiredMixin, ListView):
 
         return wishlist_products
 
+@login_required
+def add_remove_cart(request, product_pk):
+    product = get_object_or_404(Product, pk=product_pk)
+    user = request.user
+
+    if request.method == 'POST':
+        if product not in user.cart.all():
+            user.cart.add(product)
+        else:
+            user.cart.remove(product)
+
+        user.save()
+
+    return redirect(request.POST.get('next', '/'))
+
